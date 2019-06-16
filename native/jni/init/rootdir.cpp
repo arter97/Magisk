@@ -130,6 +130,10 @@ void RootFSInit::setup_rootfs() {
 	fd = xopen("/sbin/magisk", O_WRONLY | O_CREAT, 0755);
 	write(fd, self.buf, self.sz);
 	close(fd);
+
+	// Some "security" mechanisms tries to read sepolicy
+	chmod("/sepolicy", 0600);
+	chmod("/sys/fs/selinux/policy", 0600);
 }
 
 bool MagiskInit::patch_sepolicy(const char *file) {
