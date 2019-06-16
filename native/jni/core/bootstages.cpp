@@ -765,17 +765,4 @@ void boot_complete(int client) {
 		return;
 
 	auto_start_magiskhide();
-
-	if (access(MANAGERAPK, F_OK) == 0) {
-		// Install Magisk Manager if exists
-		rename(MANAGERAPK, "/data/magisk.apk");
-		install_apk("/data/magisk.apk");
-	} else {
-		// Check whether we have manager installed
-		if (!check_manager()) {
-			// Install stub
-			exec_command_sync("/sbin/magiskinit", "-x", "manager", "/data/magisk.apk");
-			install_apk("/data/magisk.apk");
-		}
-	}
 }
