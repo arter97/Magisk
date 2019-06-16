@@ -20,10 +20,13 @@ static void patch_socket_name(const char *path) {
 	uint8_t *buf;
 	char name[sizeof(MAIN_SOCKET)];
 	size_t size;
+
+	srand(time(nullptr));
+
 	mmap_rw(path, buf, size);
 	for (int i = 0; i < size; ++i) {
 		if (memcmp(buf + i, MAIN_SOCKET, sizeof(MAIN_SOCKET)) == 0) {
-			gen_rand_str(name, sizeof(name));
+			gen_rand_str(name, (rand() % 32) + 32);
 			memcpy(buf + i, name, sizeof(name));
 			i += sizeof(name);
 		}
