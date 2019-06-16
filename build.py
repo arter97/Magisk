@@ -499,7 +499,5 @@ config['prettyName'] = config['prettyName'].lower() == 'true'
 
 mkdir_p(config['outdir'])
 
-if args.release and not os.path.exists(keystore):
-    error(f'Please generate a java keystore and place it in "{keystore}"')
 STDOUT = None if args.verbose else subprocess.DEVNULL
 args.func(args)
