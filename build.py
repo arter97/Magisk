@@ -235,8 +235,6 @@ def build_binary(args):
     if 'magiskinit' in args.target:
         if not os.path.exists(os.path.join('native', 'out', 'x86', 'binaries_arch.h')):
             error('Build "magisk" before building "magiskinit"')
-        if not os.path.exists(os.path.join('native', 'out', 'binaries.h')):
-            error('Build stub APK before building "magiskinit"')
         run_ndk_build('B_INIT=1')
         run_ndk_build('B_INIT64=1')
 
