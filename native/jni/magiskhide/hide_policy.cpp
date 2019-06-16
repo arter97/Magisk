@@ -57,11 +57,12 @@ void hide_unmount(int pid) {
 	int fd = xopen(SELINUX_ENFORCE, O_RDONLY);
 	xxread(fd, &val, sizeof(val));
 	close(fd);
+
 	// Permissive
-	if (val == '0') {
+	if (val == '0')
 		chmod(SELINUX_ENFORCE, 0640);
-		chmod(SELINUX_POLICY, 0440);
-	}
+
+	chmod(SELINUX_POLICY, 0440);
 
 	vector<string> targets;
 
