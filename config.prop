@@ -1,0 +1,20 @@
+# The version name and version code of Magisk
+version=19.4-arter97
+versionCode=97979
+
+# The version name and version code of Magisk Manager
+appVersion=20000
+appVersionCode=20000
+
+outdir=out
+
+# Whether use pretty names for zips, e.g. Magisk-v${version}.zip, Magisk-uninstaller-${date}.zip
+# The default output names are magisk-${release/debug/uninstaller}.zip
+prettyName=false
+
+# Only used when building with release flag
+# These passwords are used along with release-key.jks to sign APKs and zips
+# keyPass is the pwd for the specified keyAlias
+keyStorePass=
+keyAlias=
+keyPass=
