@@ -142,9 +142,6 @@ def load_config(args):
     except ValueError:
         error('Config error: "versionCode" is required to be an integer')
 
-    if args.release and not os.path.exists(config['keyStore']):
-        error(f'Config error: assign "keyStore" to a java keystore')
-
     mkdir_p(config['outdir'])
     global STDOUT
     STDOUT = None if args.verbose else subprocess.DEVNULL
