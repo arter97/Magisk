@@ -725,21 +725,6 @@ void boot_complete(int client) {
 	write_int(client, 0);
 	close(client);
 
-	if (access(MANAGERAPK, F_OK) == 0) {
-		// Install Magisk Manager if exists
-		rename(MANAGERAPK, "/data/magisk.apk");
-		install_apk("/data/magisk.apk");
-	} else {
-		// Check whether we have a valid manager installed
-		db_strings str;
-		get_db_strings(str, SU_MANAGER);
-		if (validate_manager(str[SU_MANAGER], 0, nullptr)) {
-			// There is no manager installed, install the stub
-			exec_command_sync("/sbin/magiskinit", "-x", "manager", "/data/magisk.apk");
-			install_apk("/data/magisk.apk");
-		}
-	}
-
 	// Test whether broadcast can be used or not
 	broadcast_test();
 }

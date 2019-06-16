@@ -17,7 +17,6 @@
 #include <utils.h>
 #include <flags.h>
 
-#include "binaries.h"
 #ifdef USE_64BIT
 #include "binaries_arch64.h"
 #else
@@ -102,16 +101,6 @@ int dump_magisk(const char *path, mode_t mode) {
 	if (fd < 0)
 		return 1;
 	if (!unxz(fd, magisk_xz, sizeof(magisk_xz)))
-		return 1;
-	close(fd);
-	return 0;
-}
-
-static int dump_manager(const char *path, mode_t mode) {
-	int fd = open(path, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, mode);
-	if (fd < 0)
-		return 1;
-	if (!unxz(fd, manager_xz, sizeof(manager_xz)))
 		return 1;
 	close(fd);
 	return 0;
@@ -217,7 +206,7 @@ int main(int argc, char *argv[]) {
 		if (strcmp(argv[2], "magisk") == 0)
 			return dump_magisk(argv[3], 0755);
 		else if (strcmp(argv[2], "manager") == 0)
-			return dump_manager(argv[3], 0644);
+			return 0;
 	}
 
 	if (getpid() != 1)
