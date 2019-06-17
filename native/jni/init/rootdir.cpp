@@ -27,7 +27,7 @@ static void patch_socket_name(const char *path) {
 	mmap_rw(path, buf, size);
 	for (int i = 0; i < size; ++i) {
 		if (memcmp(buf + i, MAIN_SOCKET, sizeof(MAIN_SOCKET)) == 0) {
-			gen_rand_str(buf + i, (rand() % 32) + 32);
+			gen_rand_str(buf + i, (rand() % 8) + 4);
 			i += sizeof(MAIN_SOCKET);
 		}
 	}
