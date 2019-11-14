@@ -3,8 +3,8 @@
 #include <stdlib.h>
 
 struct cmdline {
-	bool system_as_root;
 	bool force_normal_boot;
+	bool recovery_boot;
 	char slot[3];
 	char dt_dir[128];
 };
