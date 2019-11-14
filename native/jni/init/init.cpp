@@ -208,9 +208,7 @@ int main(int argc, char *argv[]) {
 
 		if (cmd.force_normal_boot) {
 			init = make_unique<ABFirstStageInit>(argv, &cmd);
-		} else if (cmd.skip_initramfs) {
-			init = make_unique<SARInit>(argv, &cmd);
-		} else {
+		} else if (cmd.recovery_boot) {
 			decompress_ramdisk();
 			if (access("/sbin/recovery", F_OK) == 0 || access("/system/bin/recovery", F_OK) == 0)
 				init = make_unique<RecoveryInit>(argv, &cmd);
@@ -218,6 +216,8 @@ int main(int argc, char *argv[]) {
 				init = make_unique<AFirstStageInit>(argv, &cmd);
 			else
 				init = make_unique<RootFSInit>(argv, &cmd);
+		} else {
+			init = make_unique<SARInit>(argv, &cmd);
 		}
 	}
 

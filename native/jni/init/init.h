@@ -6,8 +6,8 @@
 #include <magisk.h>
 
 struct cmdline {
-	bool skip_initramfs;
 	bool force_normal_boot;
+	bool recovery_boot;
 	char slot[3];
 	char dt_dir[128];
 };
