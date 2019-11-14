@@ -55,7 +55,10 @@ static void collect_devices() {
 	}
 }
 
-static int64_t setup_block(bool write_block = true) {
+static bool super_modded;
+static int64_t setup_block(bool write_block = true, const int length = 0) {
+	bool match;
+
 	if (dev_list.empty())
 		collect_devices();
 	xmkdir("/dev", 0755);
@@ -64,6 +67,15 @@ static int64_t setup_block(bool write_block = true) {
 	for (int tries = 0; tries < 3; ++tries) {
 		for (auto &dev : dev_list) {
 			if (strcasecmp(dev.partname, partname) == 0) {
+				match = true;
+			} else if (length && strncasecmp(dev.partname, partname, length) == 0 && dev.partname[length] == '\0') {
+				match = true;
+				super_modded = true;
+			} else {
+				match = false;
+			}
+
+			if (match) {
 				if (write_block) {
 					sprintf(block_dev, "/dev/block/%s", dev.devname);
 				}
@@ -207,7 +219,7 @@ void SARInit::early_mount() {
 	LOGD("Early mount system_root\n");
 	sprintf(partname, "system%s", cmd->slot);
 	strcpy(block_dev, "/dev/root");
-	auto dev = setup_block(false);
+	auto dev = setup_block(false, strlen("system"));
 	if (dev < 0) {
 		// Try NVIDIA naming scheme
 		strcpy(partname, "APP");
@@ -224,9 +236,11 @@ void SARInit::early_mount() {
 		xmount("/dev/root", "/system_root", "erofs", MS_RDONLY, nullptr);
 	switch_root("/system_root");
 
-	mount_root(vendor);
-	mount_root(product);
-	mount_root(odm);
+	if (!super_modded) {
+		mount_root(vendor);
+		mount_root(product);
+		mount_root(odm);
+	}
 }
 
 void SecondStageInit::early_mount() {
